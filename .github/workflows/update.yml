@@ -1,0 +1,41 @@
+name: Update GitHub Profile README
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Запуск каждую ночь в 00:00 UTC
+  workflow_dispatch:
+    # Ручной запуск из интерфейса
+
+jobs:
+  build-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'ssnddsgnr/ssnddsgnr'
+          token: ${{ secrets.PROFILE_UPDATE_TOKEN }}
+          path: 'profile'
+
+      - name: Checkout generator code
+        uses: actions/checkout@v4
+        with:
+          path: 'generator'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Run Generator
+        run: |
+          cd generator
+          cargo run --release
+          cp README.md ../profile/README.md
+
+      - name: Commit and Push changes
+        run: |
+          cd profile
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: nightly profile update" && git push)

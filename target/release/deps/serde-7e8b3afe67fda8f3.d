@@ -1,0 +1,14 @@
+/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/deps/serde-7e8b3afe67fda8f3.d: /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/build/serde-29548f470e0e7279/out/private.rs
+
+/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/deps/libserde-7e8b3afe67fda8f3.rlib: /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/build/serde-29548f470e0e7279/out/private.rs
+
+/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/deps/libserde-7e8b3afe67fda8f3.rmeta: /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/build/serde-29548f470e0e7279/out/private.rs
+
+/home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/home/hypemind/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/build/serde-29548f470e0e7279/out/private.rs:
+
+# env-dep:OUT_DIR=/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/release/build/serde-29548f470e0e7279/out
