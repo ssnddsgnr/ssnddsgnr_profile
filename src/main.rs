@@ -16,7 +16,6 @@ struct GithubRepo {
     name: String,
     stargazers_count: u32,
     fork: bool,
-    private: bool,
 }
 
 #[derive(Deserialize, Debug)]
@@ -122,7 +121,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .default_headers(headers)
         .build()?;
 
-    // 1. Публичное кол-во репозиториев и фолловеров
+    // 1. Fetch REST user info
     let user_url = format!("https://api.github.com/users/{}", config.username);
     let user_res = client.get(&user_url).send().await?;
     let (public_repos_count, followers_count) = if user_res.status().is_success() {
@@ -132,7 +131,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         (0, 0)
     };
 
-    // 2. Получаем ВСЕ репозитории (включая Private, если есть токен)
+    // 2. Fetch repos
     let repos_url = if !token.is_empty() {
         "https://api.github.com/user/repos?per_page=100&type=owner".to_string()
     } else {
@@ -160,7 +159,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if l_res.status().is_success() {
                         if let Ok(bytes_data) = l_res.json::<HashMap<String, u64>>().await {
                             for (lang, bytes) in bytes_data {
-                                // 🚫 ИСКЛЮЧЕНИЕ: Игнорируем Makefile
                                 if lang == "Makefile" {
                                     continue;
                                 }
@@ -173,7 +171,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 3. Сбор суммарных коммитов и PR через GraphQL
+    // 3. Fetch Contributions via GraphQL
     let mut total_commits = 0;
     let mut total_prs = 0;
 
@@ -201,7 +199,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 4. Формирование динамического топа языков
+    // 4. Format Top Languages (Bar aligned to column 44)
     let total_lang_bytes: u64 = lang_bytes_map.values().sum();
     let mut sorted_langs: Vec<(String, u64)> = lang_bytes_map.into_iter().collect();
     sorted_langs.sort_by(|a, b| b.1.cmp(&a.1));
@@ -211,14 +209,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         languages_block.push_str(
             "3. Top Languages (Code Volume) -------------------------------------------------\n",
         );
-        // Берём Топ-5 языков (автоматически подтянутся любые новые)
         for (lang, bytes) in sorted_langs.iter().take(5) {
             let percentage = (*bytes as f64 / total_lang_bytes as f64) * 100.0;
-            let bar = make_ascii_bar(percentage, 22);
-            let kb = *bytes as f64 / 1024.0;
+            let bar = make_ascii_bar(percentage, 20);
+            let left_part = format!("   - {}", lang);
             languages_block.push_str(&format!(
-                "   - {:<12} {:>7.1} KB  {}  {:>5.1}%\n",
-                lang, kb, bar, percentage
+                "{: <43}{}  {:>5.1}%\n",
+                left_part, bar, percentage
             ));
         }
     }
@@ -296,6 +293,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         top_grid.push_str(&format!("{:40}   {}\n", left_line, right_line));
     }
 
+    // Format metrics with strict alignment to column 44
+    let metrics_line1 = format!(
+        "{: <43}Total Stars: ...... {}\n",
+        format!("   - Public Repositories: {}", public_repos_count),
+        total_stars
+    );
+    let metrics_line2 = format!(
+        "{: <43}Total Commits: .... {}\n",
+        format!("   - Account Followers: . {}", followers_count),
+        total_commits
+    );
+    let metrics_line3 = format!(
+        "{: <43}Active Project: ... DataCopter\n",
+        format!("   - Pull Requests: ..... {}", total_prs)
+    );
+
     let readme_content = format!(
         r#"<pre>
 {top_grid}================================================================================
@@ -309,10 +322,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
    - Passions:          Classical physics, automotive engineering, car tuning &
                         refactoring working code.
 2. Live GitHub Metrics ---------------------------------------------------------
-   - Public Repositories: {repos_count:<12} Total Stars: ...... {total_stars}
-   - Account Followers: . {followers_count:<12} Total Commits: .... {total_commits}
-   - Pull Requests: ..... {total_prs:<12} Active Project: ... DataCopter
-{languages_block}================================================================================
+{metrics_line1}{metrics_line2}{metrics_line3}{languages_block}================================================================================
 BTC:  <a href="https://mempool.space/address/{btc}">{btc}</a>        (Trust Wallet)
 ETH:  <a href="https://etherscan.io/address/{eth}">{eth}</a>        (Trust Wallet)
 SOL:  <a href="https://solscan.io/account/{sol}">{sol}</a>      (Trust Wallet)
@@ -328,11 +338,9 @@ GRAM: <a href="https://tonviewer.com/{gram}">{gram}</a>  (Telegram Wallet)
 </p>
 "#,
         top_grid = top_grid,
-        repos_count = public_repos_count,
-        total_stars = total_stars,
-        followers_count = followers_count,
-        total_commits = total_commits,
-        total_prs = total_prs,
+        metrics_line1 = metrics_line1,
+        metrics_line2 = metrics_line2,
+        metrics_line3 = metrics_line3,
         languages_block = languages_block,
         btc = config.btc_wallet,
         eth = config.eth_wallet,
