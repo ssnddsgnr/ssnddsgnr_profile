@@ -21,7 +21,8 @@ kkk62ek...'.........,mkkkkkkkk..'km5kkkk   Telegram: . <a href="https://t.me/chy
 7.e................'kkAnimekkk...jkkk8s5   Email: .... <a href="mailto:me@chyng.one">me@chyng.one</a>
 ,..............jkm,,mkdockerkb/...kk'8k3   
 .........{,..k,.4kkkkkCraftkk'/b...b..'9   * Current Status --------------------
-....,kmb..kkm4kk,Financekk=2mm1b........   Focus: .... on my goals================================================================================
+....,kmb..kkm4kk,Financekk=2mm1b........   Focus: .... on my goals
+================================================================================
 1. Engineering DNA & Philosophy ------------------------------------------------
    - Systems & Backend: Obsessed with Zero-Alloc performance, cache locality,
                         memory ordering & deterministic DBs.
@@ -32,8 +33,15 @@ kkk62ek...'.........,mkkkkkkkk..'km5kkkk   Telegram: . <a href="https://t.me/chy
    - Passions:          Classical physics, automotive engineering, car tuning &
                         refactoring working code.
 2. Live GitHub Metrics ---------------------------------------------------------
-   - Public Repositories: 5                  Total Stars: ...... 0
-   - Account Followers: . 0                  Active Project: ... DataCopter
+   - Public Repositories: 5            Total Stars: ...... 0
+   - Account Followers: . 0            Total Commits: .... 0
+   - Pull Requests: ..... 0            Active Project: ... DataCopter
+3. Top Languages (Code Volume) -------------------------------------------------
+   - Rust           103.8 KB  [████████████████░░░░░░]   74.1%
+   - JavaScript      13.3 KB  [██░░░░░░░░░░░░░░░░░░░░]    9.5%
+   - DTrace          11.7 KB  [██░░░░░░░░░░░░░░░░░░░░]    8.3%
+   - HTML             6.3 KB  [█░░░░░░░░░░░░░░░░░░░░░]    4.5%
+   - CSS              5.0 KB  [█░░░░░░░░░░░░░░░░░░░░░]    3.6%
 ================================================================================
 BTC:  <a href="https://mempool.space/address/bc1qu4edhpk0wsdzh90aa6f488sr2ylr0rfrn37gt6">bc1qu4edhpk0wsdzh90aa6f488sr2ylr0rfrn37gt6</a>        (Trust Wallet)
 ETH:  <a href="https://etherscan.io/address/0x5B17758d7Eb8e14119f5Bdf6c2bBD4de786c5d08">0x5B17758d7Eb8e14119f5Bdf6c2bBD4de786c5d08</a>        (Trust Wallet)
