@@ -109,7 +109,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .default_headers(headers)
         .build()?;
 
-    // 1. Извлекаем основную информацию по профилю;
+    // 1. Fetch REST user info
     let user_url = format!("https://api.github.com/users/{}", config.username);
     let user_res = client.get(&user_url).send().await?;
     let (public_repos_count, followers_count) = if user_res.status().is_success() {
@@ -119,7 +119,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         (0, 0)
     };
 
-    // 2. Читаем репозитории (включая приватные -- по токену);
+    // 2. Fetch repos
     let repos_url = if !token.is_empty() {
         "https://api.github.com/user/repos?per_page=100&type=owner".to_string()
     } else {
@@ -158,7 +158,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 3. Вытаскиваем контрибьюты с GraphQL;
+    // 3. Fetch Contributions via GraphQL
     let mut total_commits = 0;
     let mut total_prs = 0;
 
@@ -186,25 +186,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 4. Собираем метрики и языки в блок;
-    let metrics_line1 = format!(
-        "{: <43}Total Stars: ...... {}\n",
-        format!("   - Public Repositories: {}", public_repos_count),
-        total_stars
-    );
-    let metrics_line2 = format!(
-        "{: <43}Total Commits: .... {}\n",
-        format!("   - Account Followers: . {}", followers_count),
-        total_commits
-    );
-    let metrics_line3 = format!(
-        "{: <43}Active Project: ... DataCopter\n",
-        format!("   - Pull Requests: ..... {}", total_prs)
-    );
+    // 4. Build 3-column / 2-line Metrics Block
+    let m1_c1 = format!("   - Public Repositories: {}", public_repos_count);
+    let m1_c2 = format!("Pull Requests: ..... {}", total_prs);
+    let m1_c3 = format!("Total Commits: .... {}", total_commits);
+
+    let m2_c1 = format!("   - Account Followers: . {}", followers_count);
+    let m2_c2 = format!("Total Stars: ....... {}", total_stars);
+    let m2_c3 = "Active Project: ... DataCopter".to_string();
+
+    let metrics_line1 = format!("{: <43}{: <38}{}", m1_c1, m1_c2, m1_c3);
+    let metrics_line2 = format!("{: <43}{: <38}{}", m2_c1, m2_c2, m2_c3);
 
     let mut metrics_block = format!(
-        "1. Live GitHub Metrics -------------------------------------------------------------------------------------------------\n{}{}{}\n",
-        metrics_line1, metrics_line2, metrics_line3
+        "1. Live GitHub Metrics -------------------------------------------------------------------------------------------------\n{}\n{}\n",
+        metrics_line1, metrics_line2
     );
 
     let total_lang_bytes: u64 = lang_bytes_map.values().sum();
@@ -215,12 +211,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         metrics_block.push_str("2. Top Languages (Code Volume) -----------------------------------------------------------------------------------------\n");
         for (lang, bytes) in sorted_langs.iter().take(5) {
             let percentage = (*bytes as f64 / total_lang_bytes as f64) * 100.0;
-            let bar = make_ascii_bar(percentage, 90);
+            let bar = make_ascii_bar(percentage, 70);
             metrics_block.push_str(&format!("   - {:<12} {} {:>5.1}%\n", lang, bar, percentage));
         }
     }
 
-    // 5. Вычитываем подготовленные шаблоны и заполняем динамические поля (День Рождения);
+    // 5. Read templates and replace placeholders
     let uptime = calculate_uptime(config.birth_date);
 
     let profile_template = std::fs::read_to_string("templates/profile.md")
@@ -230,7 +226,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let wallets_content = std::fs::read_to_string("templates/wallets.md")
         .unwrap_or_else(|_| include_str!("../templates/wallets.md").to_string());
 
-    // 6. Собираем финальный README.md в корень.
+    // 6. Build final README.md
     let readme_content = format!(
         r#"<pre>
 {}
