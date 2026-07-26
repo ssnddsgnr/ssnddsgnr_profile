@@ -1,1 +1,1 @@
-/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/debug/ssnddsgnr_profile: /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/src/main.rs
+/home/hypemind/dev/infra/scripts/ssnddsgnr_profile/target/debug/ssnddsgnr_profile: /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/src/main.rs /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/templates/profile.md /home/hypemind/dev/infra/scripts/ssnddsgnr_profile/templates/wallets.md

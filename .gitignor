@@ -1,6 +1,9 @@
 /target/
+target/
 **/*.rs.bk
 *.pdb
+
+Cargo.lock
 
 .DS_Store
 Thumbs.db
@@ -10,4 +13,3 @@ Thumbs.db
 *.swp
 *.swo
 *~
-

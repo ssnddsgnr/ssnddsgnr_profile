@@ -212,10 +212,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     sorted_langs.sort_by(|a, b| b.1.cmp(&a.1));
 
     if total_lang_bytes > 0 {
-        metrics_block.push_str("2. Top Languages (Code Volume) -------------------------------------------------------------------------\n");
+        metrics_block.push_str("2. Top Languages (Code Volume) -----------------------------------------------------------------------------------------\n");
         for (lang, bytes) in sorted_langs.iter().take(5) {
             let percentage = (*bytes as f64 / total_lang_bytes as f64) * 100.0;
-            let bar = make_ascii_bar(percentage, 70);
+            let bar = make_ascii_bar(percentage, 90);
             metrics_block.push_str(&format!("   - {:<12} {} {:>5.1}%\n", lang, bar, percentage));
         }
     }
