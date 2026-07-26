@@ -109,7 +109,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .default_headers(headers)
         .build()?;
 
-    // 1. Fetch REST user info
+    // 1. Достём мою информацию:
     let user_url = format!("https://api.github.com/users/{}", config.username);
     let user_res = client.get(&user_url).send().await?;
     let (public_repos_count, followers_count) = if user_res.status().is_success() {
@@ -119,7 +119,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         (0, 0)
     };
 
-    // 2. Fetch repos
+    // 2. Читаем репозитории:
     let repos_url = if !token.is_empty() {
         "https://api.github.com/user/repos?per_page=100&type=owner".to_string()
     } else {
@@ -158,7 +158,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 3. Fetch Contributions via GraphQL
+    // 3. Достаём метрики через GraphQL
     let mut total_commits = 0;
     let mut total_prs = 0;
 
@@ -186,7 +186,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 4. Build 3-column / 2-line Metrics Block
+    // 4. Собираем метрику:
     let m1_c1 = format!("   - Public Repositories: {}", public_repos_count);
     let m1_c2 = format!("Pull Requests: ..... {}", total_prs);
     let m1_c3 = format!("Total Commits: .... {}", total_commits);
@@ -216,7 +216,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    // 5. Read templates and replace placeholders
+    // 5. Читаем заготовки, интегрируем возраст:
     let uptime = calculate_uptime(config.birth_date);
 
     let profile_template = std::fs::read_to_string("templates/profile.md")
@@ -226,7 +226,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let wallets_content = std::fs::read_to_string("templates/wallets.md")
         .unwrap_or_else(|_| include_str!("../templates/wallets.md").to_string());
 
-    // 6. Build final README.md
+    // 6. Генерим финальный README.md:
     let readme_content = format!(
         r#"<pre>
 {}
